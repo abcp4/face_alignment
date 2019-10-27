@@ -2,7 +2,7 @@ import face_recognition as fr
 import numpy as np
 import cv2
 
-def face_alignment(img, scale=0.9, face_size=(224,224)):
+def face_alignment(img, landmark_dict,scale=0.9, face_size=(224,224)):
     '''
     face alignment API for single image, get the landmark of eyes and nose and do warpaffine transformation
     :param face_img: single image that including face, I recommend to use dlib frontal face detector
@@ -14,11 +14,14 @@ def face_alignment(img, scale=0.9, face_size=(224,224)):
     output_img = list()
     face_loc_list = _face_locations_small(img)
     for face_loc in face_loc_list:
-        face_img = _crop_face(img, face_loc, padding_size=int((face_loc[2] - face_loc[0])*0.5))
-        face_loc_small_img = _face_locations_small(face_img)
-        face_land = fr.face_landmarks(face_img, face_loc_small_img)
-        if len(face_land) == 0:
-            return []
+        #face_img = _crop_face(img, face_loc, padding_size=int((face_loc[2] - face_loc[0])*0.5))
+        #face_loc_small_img = _face_locations_small(face_img)
+        #face_land = fr.face_landmarks(face_img, face_loc_small_img)
+        #if len(face_land) == 0:
+        #    return []
+        left_eye_center = landmark_dict[img][7]
+        right_eye_center = landmark_dict[img][8]
+        nose_center = landmark_dict[img][9]
         left_eye_center = _find_center_pt(face_land[0]['left_eye'])
         right_eye_center = _find_center_pt(face_land[0]['right_eye'])
         nose_center = _find_center_pt(face_land[0]['nose_tip'])
