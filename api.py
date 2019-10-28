@@ -3,6 +3,7 @@ import numpy as np
 import cv2
 
 def face_alignment(img, landmarks,scale=0.9, face_size=(224,224)):
+    print('lol')
     '''
     face alignment API for single image, get the landmark of eyes and nose and do warpaffine transformation
     :param face_img: single image that including face, I recommend to use dlib frontal face detector
