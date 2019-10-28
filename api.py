@@ -12,27 +12,27 @@ def face_alignment(img, landmark_dict,scale=0.9, face_size=(224,224)):
     '''
     h, w, c = img.shape
     output_img = list()
-    face_loc_list = _face_locations_small(img)
-    for face_loc in face_loc_list:
+    #face_loc_list = _face_locations_small(img)
+    #for face_loc in face_loc_list:
         #face_img = _crop_face(img, face_loc, padding_size=int((face_loc[2] - face_loc[0])*0.5))
         #face_loc_small_img = _face_locations_small(face_img)
         #face_land = fr.face_landmarks(face_img, face_loc_small_img)
         #if len(face_land) == 0:
         #    return []
-        left_eye_center = landmark_dict[img][7]
-        right_eye_center = landmark_dict[img][8]
-        nose_center = landmark_dict[img][9]
-        left_eye_center = _find_center_pt(face_land[0]['left_eye'])
-        right_eye_center = _find_center_pt(face_land[0]['right_eye'])
-        nose_center = _find_center_pt(face_land[0]['nose_tip'])
-        trotate = _get_rotation_matrix(left_eye_center, right_eye_center, nose_center, img, scale=scale)
-        warped = cv2.warpAffine(face_img, trotate, (w, h))
-        new_face_loc = fr.face_locations(warped)
-        if len(new_face_loc) == 0:
-            return []
-        output_img.append(cv2.resize(_crop_face(warped, new_face_loc[0]), face_size))
-
-    return output_img
+    left_eye_center = landmark_dict[img][7]
+    right_eye_center = landmark_dict[img][8]
+    nose_center = landmark_dict[img][9]
+    #left_eye_center = _find_center_pt(face_land[0]['left_eye'])
+    #right_eye_center = _find_center_pt(face_land[0]['right_eye'])
+    #nose_center = _find_center_pt(face_land[0]['nose_tip'])
+    trotate = _get_rotation_matrix(left_eye_center, right_eye_center, nose_center, img, scale=scale)
+    warped = cv2.warpAffine(face_img, trotate, (w, h))
+    new_face_loc = fr.face_locations(warped)
+    if len(new_face_loc) == 0:
+        return []
+    #output_img.append(cv2.resize(_crop_face(warped, new_face_loc[0]), face_size))
+    #return output_img
+    return cv2.resize(_crop_face(warped, new_face_loc[0]), face_size)
 
 def _find_center_pt(points):
     '''
