@@ -28,7 +28,8 @@ def face_alignment(img, landmarks,scale=0.9, face_size=(224,224)):
     #nose_center = _find_center_pt(face_land[0]['nose_tip'])
     trotate = _get_rotation_matrix(left_eye_center, right_eye_center, nose_center, img, scale=scale)
     print('trotate:',trotate)
-    warped = cv2.warpAffine(face_img, trotate, (w, h))
+    #warped = cv2.warpAffine(face_img, trotate, (w, h))
+    warped = cv2.warpAffine(img, trotate, (w, h))
     print(warped)
     new_face_loc = fr.face_locations(warped)
     if len(new_face_loc) == 0:
